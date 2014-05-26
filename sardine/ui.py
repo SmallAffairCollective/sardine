@@ -1,5 +1,6 @@
 import curses
 import math
+import sys
 
 class main(object):
     def __init__(self):
@@ -39,23 +40,24 @@ class main(object):
             padding = (win_tuple[1]-(square*board_size))/2
 
             j = 0
+            s = " "
+            if square % 2 != 0:
+                s = "  "
+            z = [s]*(((square*board_size)+lines)/2)
             for i in xrange(((square*board_size)+lines)/2):
                 if i % (square/2) == (((square/2)-1)/2)+1:
-                    if square % 2 == 0:
-                        z = "x"
-                    else:
-                        z = " x"
-                else:
-                    if square % 2 == 0:
-                        z = " "
-                    else:
-                        z = "  "
+                    z[i] = "x"
+                    if square % 2 != 0:
+                        z[i] = " x"
+                draw_board += (" "*padding)
                 if i % (square/2) == 0:
                     if j <= board_size:
-                        draw_board += (" "*padding)+((("-"*(square-len(z)+1))+"+")*lines)+("-"*(square-len(z)+1))+"\n"
+                        draw_board += ((("-"*(square-len(z[i])+1))+"+")*lines)+("-"*(square-len(z[i])+1))+"\n"
                     j += 1
                 elif j <= board_size:
-                    draw_board += (" "*padding)+(((" "*((square/2)-len(z)))+z+(" "*(square/2))+"|")*lines)+(" "*((square/2)-len(z)))+z+(" "*(square/2))+"\n"
+                    for x in xrange(lines):
+                        draw_board += ((" "*((square/2)-len(z[i])))+z[i]+(" "*(square/2))+"|")
+                    draw_board += (" "*((square/2)-len(z[i])))+z[i]+(" "*(square/2))+"\n"
 
             self.win.clear()
             self.win.addstr(2, 2, "Shall we play a game...", curses.A_STANDOUT)
@@ -67,7 +69,13 @@ class main(object):
             x = self.win.getch()
 
             if x == ord('1'):
-                location = self.get_param("Enter a location")
+                location = len(board)+1
+                while location > len(board):
+                    location = self.get_param("Enter a location")
+                    try:
+                        location = int(location)
+                    except:
+                        location = len(board)+1
                 character = self.get_param("Enter a character")
                 curses.endwin()
             elif x == ord('2'):
