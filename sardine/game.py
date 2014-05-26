@@ -10,13 +10,11 @@ class Game:
     def start(self):
         turn = 0
         players = [self.ai,self.ui]
-        self.ui.start()
+        self.ui.start(self.board)
         while self.not_over():
-            play = players[turn].play(self.board)
-            print type(play)
-            self.play(play)
+            self.play(players[turn].play(self.board))
             turn = (turn+1)%2
-            self.ui.display_menu(self.board)
+            self.ui.update(self.board)
         self.ui.end()
         
     def not_over(self):
