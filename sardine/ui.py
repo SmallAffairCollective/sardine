@@ -31,7 +31,7 @@ class main(object):
             board_size = int(board_size)
 
         while x != ord('2'):
-            string1 = ""
+            draw_board = ""
             self.win = curses.initscr()
             win_tuple = self.win.getmaxyx()
             lines = board_size-1
@@ -52,16 +52,16 @@ class main(object):
                         z = "  "
                 if i % (square/2) == 0:
                     if j <= board_size:
-                        string1 += (" "*padding)+((("-"*(square-len(z)+1))+"+")*lines)+("-"*(square-len(z)+1))+"\n"
+                        draw_board += (" "*padding)+((("-"*(square-len(z)+1))+"+")*lines)+("-"*(square-len(z)+1))+"\n"
                     j += 1
                 elif j <= board_size:
-                    string1 += (" "*padding)+(((" "*((square/2)-len(z)))+z+(" "*(square/2))+"|")*lines)+(" "*((square/2)-len(z)))+z+(" "*(square/2))+"\n"
+                    draw_board += (" "*padding)+(((" "*((square/2)-len(z)))+z+(" "*(square/2))+"|")*lines)+(" "*((square/2)-len(z)))+z+(" "*(square/2))+"\n"
 
             self.win.clear()
             self.win.addstr(2, 2, "Shall we play a game...", curses.A_STANDOUT)
             self.win.addstr(4, 4, "1 - Take a turn", curses.A_BOLD)
             self.win.addstr(5, 4, "2 - Exit", curses.A_BOLD)
-            self.win.addstr(7, 0,  string1)
+            self.win.addstr(7, 0,  draw_board)
             self.win.refresh()
 
             x = self.win.getch()
@@ -69,7 +69,6 @@ class main(object):
             if x == ord('1'):
                 location = self.get_param("Enter a location")
                 character = self.get_param("Enter a character")
-                string1 = " |O| "
                 curses.endwin()
             elif x == ord('2'):
                 curses.endwin()
