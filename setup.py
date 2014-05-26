@@ -13,7 +13,7 @@ setup(
     install_requires=[],
     entry_points={
         'console_scripts': [
-            'sardine = sardine.ui:main',
+            'sardine = sardine.ui:start',
         ]
     }
 )
