@@ -10,6 +10,10 @@ class UI(object):
         curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
         self.highlighted = curses.color_pair(1)
         self.normal = curses.A_NORMAL
+        self.win.timeout(0)
+        
+        self.board_state = False
+        self.win_state = self.win.getmaxyx()
 
     def get_param(self, prompt_string):
         self.win.clear()
@@ -43,8 +47,13 @@ class UI(object):
             elif x == ord('2'):
                 # THE PROGRAM QUITS HERE OMGZZZZZZ!!!111!11!
                 self.end()
+            elif((self.board_state != board) or self.win_size_updated()):
+                    self.update(board)
         
         return location, character
+
+    def win_size_updated(self):
+        return self.win_state != self.win.gitmaxyx()
 
     def update(self, board):
         self.win = curses.initscr()
@@ -57,4 +66,5 @@ class UI(object):
         self.win.addstr(5, 4, "2 - Exit", curses.A_BOLD)
         self.win.addstr(7, 0,  draw_board)
         self.win.refresh()
+        self.win_state = win_tuple
 

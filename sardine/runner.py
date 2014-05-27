@@ -6,7 +6,7 @@ from ui import UI
 def run():
     ai = AI_Wrapper(sys.argv[1])
     ui = UI()
-    game = Game(ui,ai,5)
+    game = Game(ui,ai,2)
     game.start()
 
 if __name__ == "__main__":
